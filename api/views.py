@@ -79,6 +79,42 @@ class ElevatorViewSet(viewsets.ModelViewSet):
         req_serializer = RequestSerializer(req, many=True, context={"request": request})
         return Response(req_serializer.data)
 
+    @action(detail=True, methods=['GET', 'PATCH'])
+    def getting_lift_request(self, request, pk=None):
+        try:
+            target_elevator = Elevator.objects.get(pk=pk)
+        except Elevator.DoesNotExist:
+            return Response({"error": "Elevator does not exist"}, status=400)
+
+        if request.method == 'GET':
+            serializers_data = ElevatorSerializer(target_elevator, context={'request': request})
+            return Response(serializers_data.data)
+        if request.method != 'PATCH':
+            pass
+        try:
+            target_elevator = Elevator.objects.get(pk=pk)
+        except Elevator.DoesNotExist:
+            return Response({"error": "Elevator does not exist"}, status=400)
+        try:
+            req = Request.objects.filter(elevator=target_elevator)
+        except Request.DoesNotExist:
+            return Response({"error": "Request for this elevator does not exist"}, status=400)
+        if len(req) == 0:
+            return Response({"Response": "Response list is empty"}, status=400)
+        req_list = req[::-1]
+        req_obj = req_list.pop()
+
+        if target_elevator.destination_floor == req_obj.request_floor:
+            target_elevator.current_floor = target_elevator.destination_floor
+            target_elevator.destination_floor = req_obj.floor_number
+            req_obj.delete()
+        if target_elevator.current_floor != req_obj.request_floor:
+            req_list.append(req_obj)
+            target_elevator.current_floor = target_elevator.destination_floor
+            target_elevator.destination_floor = req_obj.request_floor
+        target_elevator.save()
+        return JsonResponse({"Response": "Updated the elevator destination"}, status=202)
+
 
 class RequestViewSet(viewsets.ModelViewSet):
     queryset = Request.objects.all()

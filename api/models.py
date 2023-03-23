@@ -21,6 +21,7 @@ class Floor(models.Model):
 
 class Request(models.Model):
     floor_number = models.IntegerField(default=0)
+    request_floor = models.IntegerField(default=0)
     direction = models.CharField(max_length=10, default='up')
     timestamp = models.DateTimeField(auto_now_add=True)
     elevator = models.ForeignKey(Elevator, on_delete=models.CASCADE, null=True)
