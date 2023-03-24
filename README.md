@@ -14,7 +14,7 @@ LIST OF API END POINTS
 
 6.) GET  http://127.0.0.1:8000/api/v1/Elevators/{elevator_id}/get_elevator_request_list : Fetches the list of request for an elevator.
 
-7.) PATCH http://127.0.0.1:8000/api/v1/Elevators/{elevator_id}/getting_left_request : Update the current and destination of for a list.
+7.) PATCH http://127.0.0.1:8000/api/v1/Elevators/{elevator_id}/getting_left_request : Update the current and destination of for a lift.
 
 8.) GET http://127.0.0.1:8000/api/v1/Elevators/{elevator_id}/getting_left_request : Display the updated lift condition .
  
