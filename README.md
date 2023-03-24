@@ -18,3 +18,6 @@ LIST OF API END POINTS
 
 8.) GET http://127.0.0.1:8000/api/v1/Elevators/{elevator_id}/getting_left_request : Display the updated lift condition .
  
+Screen recording Link:
+
+https://drive.google.com/file/d/1QJ5Tzw01z3QT246gmDb-R3MQciTTBBD_/view?usp=share_link
