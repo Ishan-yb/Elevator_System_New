@@ -63,7 +63,11 @@ class ElevatorViewSet(viewsets.ModelViewSet):
         serializers_data = ElevatorSerializer(target_elevator, context={'request': request})
 
         if serializers_data.data["destination_floor"] > serializers_data.data["current_floor"]:
+            target_elevator.direction = "UP"
+            target_elevator.save()
             return Response({"Direction": "UP"}, status=201)
+        target_elevator.direction = "DOWN"
+        target_elevator.save()
         return Response({"Direction": "DOWN"}, status=201)
 
     @action(detail=True, methods=['GET'])
